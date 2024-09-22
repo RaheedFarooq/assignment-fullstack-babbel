@@ -9,7 +9,6 @@ export const getAllFromJson = async (): Promise<Record<string, string>> => {
     const data = await readFile(dataPath, "utf8");
     return JSON.parse(data);
   } catch (error) {
-    console.log(error);
     throw new Error("Error reading or parsing data file");
   }
 };
@@ -29,10 +28,7 @@ export const getByDomain = async (domain: string): Promise<IUser | null> => {
   }
 };
 
-export const saveToJson = async (
-  name: string,
-  email: string
-): Promise<boolean> => {
+export const saveToJson = async (name: string, email: string): Promise<boolean> => {
   try {
     const jsonData = await getAllFromJson();
     jsonData[name] = email;

@@ -25,3 +25,12 @@ export const getEmailType = ({ name, email, domain }: IUser): EmailFormat => {
     return `${emailSuffix}@${domain}`.toLowerCase();
   };
   
+  export const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+  
+  export const validateDomain = (domain: string): boolean => {
+    return domain.split(".").length >= 2;
+  };
+  

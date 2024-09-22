@@ -1,6 +1,11 @@
 import { Response } from "express";
 import { getByDomain, saveToJson } from "./model";
-import { getEmailType, generateUserEmail } from "./utils";
+import {
+  generateUserEmail,
+  getEmailType,
+  validateDomain,
+  validateEmail,
+} from "./utils";
 import { IGetUserEmailReq, IPostUserEmailReq } from "./types";
 
 const handleError = (status: number, message: string, res: Response) => {
@@ -11,13 +16,9 @@ const handleError = (status: number, message: string, res: Response) => {
 
 export const getUserEmail = async (req: IGetUserEmailReq, res: Response) => {
   try {
-    const { firstName, lastName, domain } = req.query as {
-      firstName: string;
-      lastName: string;
-      domain: string;
-    };
+    const { firstName, lastName, domain } = req.query;
 
-    if (!(firstName && lastName && domain)) {
+    if (!(firstName && lastName && domain && validateDomain(domain))) {
       return handleError(
         400,
         "Missing or Invalid query parameters: firstName, lastName and/or domain.",
@@ -81,6 +82,10 @@ export const saveNewEmail = async (req: IPostUserEmailReq, res: Response) => {
       "Missing required parameters: name and email are required.",
       res
     );
+  }
+
+  if (!validateEmail(email)) {
+    return handleError(400, "Invalid email format", res);
   }
 
   try {
