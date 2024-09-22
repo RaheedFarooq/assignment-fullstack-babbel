@@ -1,8 +1,15 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import { getByDomain, saveToJson } from "./model";
 import { getEmailType, generateUserEmail } from "./utils";
+import { IGetUserEmailReq, IPostUserEmailReq } from "./types";
 
-export const getUserEmail = async (req: Request, res: Response) => {
+const handleError = (status: number, message: string, res: Response) => {
+  res.status(status).json({
+    message,
+  });
+};
+
+export const getUserEmail = async (req: IGetUserEmailReq, res: Response) => {
   try {
     const { firstName, lastName, domain } = req.query as {
       firstName: string;
@@ -11,10 +18,11 @@ export const getUserEmail = async (req: Request, res: Response) => {
     };
 
     if (!(firstName && lastName && domain)) {
-      res.status(400).json({
-        message:
-          "Missing or Invalid query parameters: firstName, lastName and/or domain!",
-      });
+      return handleError(
+        400,
+        "Missing or Invalid query parameters: firstName, lastName and/or domain.",
+        res
+      );
     }
 
     const colleague = await getByDomain(domain);
@@ -61,26 +69,28 @@ export const getUserEmail = async (req: Request, res: Response) => {
       },
     });
   } catch (err) {
-    res.status(500).json({
-      message: "Oops, something went wrong!",
-    });
+    handleError(500, "Oops, something went wrong", res);
   }
 };
 
-export const saveNewEmail = async (req: Request, res: Response) => {
+export const saveNewEmail = async (req: IPostUserEmailReq, res: Response) => {
   const { name, email } = req.body;
   if (!(email && name)) {
-    res.status(400).json({
-      message: "Missing required parameters: name and email are required.",
-    });
+    return handleError(
+      400,
+      "Missing required parameters: name and email are required.",
+      res
+    );
   }
 
   try {
     await saveToJson(name, email);
     res.status(201).json({ message: "Success" });
   } catch (err) {
-    res.status(500).json({
-      message: "Oops! Something went wrong. Unable to save user email",
-    });
+    handleError(
+      500,
+      "Oops! Something went wrong. Unable to save user email",
+      res
+    );
   }
 };
