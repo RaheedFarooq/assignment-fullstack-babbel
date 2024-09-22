@@ -1,15 +1,11 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
+import { getUserEmail } from './controller';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware to parse JSON
-app.use(express.json());
-
-// Simple route for testing
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello from the TypeScript backend!');
-});
+app.route('/')
+  .get(getUserEmail);
 
 // Start the server
 app.listen(PORT, () => {
