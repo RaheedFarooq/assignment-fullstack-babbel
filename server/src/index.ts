@@ -1,11 +1,14 @@
 import express from 'express';
-import { getUserEmail } from './controller';
+import { getUserEmail, saveNewEmail } from './controller';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.json());
+
 app.route('/')
-  .get(getUserEmail);
+  .get(getUserEmail)
+  .post(saveNewEmail);
 
 // Start the server
 app.listen(PORT, () => {

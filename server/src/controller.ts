@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getByDomain } from "./model";
+import { getByDomain, saveToJson } from "./model";
 import { getEmailType, generateUserEmail } from "./utils";
 
 export const getUserEmail = async (req: Request, res: Response) => {
@@ -61,9 +61,26 @@ export const getUserEmail = async (req: Request, res: Response) => {
       },
     });
   } catch (err) {
+    res.status(500).json({
+      message: "Oops, something went wrong!",
+    });
+  }
+};
+
+export const saveNewEmail = async (req: Request, res: Response) => {
+  const { name, email } = req.body;
+  if (!(email && name)) {
     res.status(400).json({
-      message:
-        "Missing or Invalid query parameters: firstName, lastName and/or domain!",
+      message: "Missing required parameters: name and email are required.",
+    });
+  }
+
+  try {
+    await saveToJson(name, email);
+    res.status(201).json({ message: "Success" });
+  } catch (err) {
+    res.status(500).json({
+      message: "Oops! Something went wrong. Unable to save user email",
     });
   }
 };
