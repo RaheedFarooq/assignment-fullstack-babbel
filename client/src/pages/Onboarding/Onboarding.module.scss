@@ -1,0 +1,15 @@
+@import '@/theme/variables.scss';
+
+.root {
+    background-color: $babbel_white_light;
+    color: $babbel_primary;
+    outline: 4px solid $babbel_secondary;
+    outline-offset: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    padding: 50px;
+    flex-wrap: wrap;
+    max-width: 500px;
+}

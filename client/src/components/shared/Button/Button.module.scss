@@ -1,0 +1,17 @@
+@import '@/theme/variables.scss';
+
+.button {
+    background-color: $babbel_primary;
+    color: $babbel_white;
+    font-size: 16px;
+    font-weight: 600;
+    min-width: 200px;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+
+    &:hover {
+        background-color: $babbel_primary_75;
+        cursor: pointer;
+    }
+}
