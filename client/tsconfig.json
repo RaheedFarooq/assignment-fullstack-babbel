@@ -1,5 +1,18 @@
 {
-  "files": [],
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["*"],
+      "@/theme/*": ["theme/*"]
+    },
+    "types": ["node"],
+    "strict": true,
+    "esModuleInterop": true
+  },
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
