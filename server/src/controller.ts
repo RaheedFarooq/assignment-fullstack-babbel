@@ -64,7 +64,7 @@ export const getUserEmail = async (req: IGetUserEmailReq, res: Response) => {
     return res.status(200).json({
       message: "Potential emails generated",
       data: {
-        name: `${firstName} ${lastName}`,
+        fullName: `${firstName} ${lastName}`,
         email: potentialEmails,
         isNew: true,
       },
@@ -75,11 +75,11 @@ export const getUserEmail = async (req: IGetUserEmailReq, res: Response) => {
 };
 
 export const saveNewEmail = async (req: IPostUserEmailReq, res: Response) => {
-  const { name, email } = req.body;
-  if (!(email && name)) {
+  const { fullName, email } = req.body;
+  if (!(email && fullName)) {
     return handleError(
       400,
-      "Missing required parameters: name and email are required.",
+      "Missing required parameters: fullName and email are required.",
       res
     );
   }
@@ -89,7 +89,7 @@ export const saveNewEmail = async (req: IPostUserEmailReq, res: Response) => {
   }
 
   try {
-    await saveToJson(name, email);
+    await saveToJson(fullName, email);
     res.status(201).json({ message: "Success" });
   } catch (err) {
     handleError(

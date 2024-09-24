@@ -33,7 +33,7 @@ export interface IPostUserEmailReq
     IDefReqParams,
     IDefResBody,
     {
-      name: string;
+      fullName: string;
       email: string;
     },
     IDefReqQuery
