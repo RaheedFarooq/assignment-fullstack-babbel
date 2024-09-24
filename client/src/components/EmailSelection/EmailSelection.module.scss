@@ -1,0 +1,19 @@
+@import "@/theme/variables.scss";
+
+.root{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .emailSelect{
+        margin: 40px auto 35px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+
+        .subtext {
+            color: $babbel_black;
+        }
+    }
+}

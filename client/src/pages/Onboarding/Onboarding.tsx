@@ -4,19 +4,22 @@ import UserForm from "@/components/UserForm";
 import { getUserEmail } from "@/api";
 import { ONBOARDING_STEP } from "@/constants";
 import { IGetUserEmailResponse, TOnboardingStep, UserData } from "../../types";
+import EmailSelection from "../../components/EmailSelection";
+
+const DEFAULT_USER_DATA = {
+  firstName: "",
+  lastName: "",
+  fullName: "",
+  email: [],
+  domain: "",
+};
 
 const Onboarding: React.FC = () => {
   const [onboardingStep, setOnboardingStep] = useState<TOnboardingStep>(
     ONBOARDING_STEP.USER_FORM
   );
 
-  const [user, setUser] = useState<UserData | null>({
-    firstName: "",
-    lastName: "",
-    fullName: "",
-    email: [],
-    domain: "",
-  });
+  const [user, setUser] = useState<UserData>(DEFAULT_USER_DATA);
 
   const handleUserDataSubmit = async ({
     firstName,
@@ -47,12 +50,26 @@ const Onboarding: React.FC = () => {
     }
   };
 
+  const handleUserEmailCreate = async ({ email }: { email: string }) => {
+    console.log({email});
+  };
+
+  const onReset = () => {
+    setOnboardingStep(ONBOARDING_STEP.USER_FORM);
+    setUser(DEFAULT_USER_DATA);
+  };
+
   const RenderOnboardingStep = () => {
     switch (onboardingStep) {
       case "userForm":
         return <UserForm onSubmit={handleUserDataSubmit} />;
       case "emailSelection":
-        return <div>email Selection</div>;
+        return <EmailSelection
+          fullName={user.fullName}
+          emailOptions={user.email}
+          onSubmit={handleUserEmailCreate}
+          onBack={onReset}
+        />
       case "Success":
         return <div> Success </div>;
       default:
@@ -62,6 +79,9 @@ const Onboarding: React.FC = () => {
 
   return (
     <div className={styles.root}>
+      <h1>
+        Welcome to <i>Babbel</i>
+      </h1>
       <RenderOnboardingStep />
     </div>
   );

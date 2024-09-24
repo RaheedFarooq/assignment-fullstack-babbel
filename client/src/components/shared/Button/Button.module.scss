@@ -17,4 +17,19 @@
     &:disabled{
         background-color: $babbel_primary_light;
     }
+
+    &.text {
+        background-color: transparent;
+        color: $babbel_primary;
+        font-size: 14px;
+        font-weight: 400;
+        margin: 8px auto;
+        padding: 0;
+        min-width: 0;
+        border: none;
+        text-decoration: underline;
+        &:hover {
+            color: $babbel_primary_75;
+        }
+    }
 }

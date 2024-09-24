@@ -44,9 +44,6 @@ const UserForm: React.FC<IUserForm> = ({ onSubmit }) => {
 
   return (
     <div className={styles.root}>
-      <h1>
-        Welcome to <i>Babbel</i>
-      </h1>
       <p>Please enter your details below to continue</p>
       <div className={styles.form}>
         <InputField
