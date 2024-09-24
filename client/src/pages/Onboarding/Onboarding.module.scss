@@ -12,4 +12,9 @@
     padding: 50px;
     flex-wrap: wrap;
     max-width: 500px;
+    margin: auto 20px;
+
+    @media screen and (max-width: 375px) {
+        padding: 30px;
+    }
 }

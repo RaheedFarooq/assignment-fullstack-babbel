@@ -9,9 +9,12 @@
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
+    cursor: pointer;
 
     &:hover {
         background-color: $babbel_primary_75;
-        cursor: pointer;
+    }
+    &:disabled{
+        background-color: $babbel_primary_light;
     }
 }

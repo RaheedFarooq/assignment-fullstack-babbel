@@ -5,6 +5,7 @@
   flex-direction: column;
   gap: 3px;
   flex: 1 0 0;
+  position: relative;
 
   &.maxWidth {
     flex-basis: 100%;
@@ -41,5 +42,7 @@
     color: red;
     font-size: 12px;
     display: block;
+    position: absolute;
+    bottom: -22px;
   }
 }

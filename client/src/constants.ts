@@ -1,0 +1,5 @@
+export const ONBOARDING_STEP = {
+    USER_FORM : "USER_FORM",
+    EMAIL_SELECT: "EMAIL_SELECT",
+    SUCCESS: "SUCCESS"
+};

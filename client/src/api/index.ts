@@ -1,0 +1,1 @@
+export { getUserEmail } from './api';

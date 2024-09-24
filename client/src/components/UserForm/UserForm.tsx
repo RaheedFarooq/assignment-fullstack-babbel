@@ -4,7 +4,15 @@ import InputField from "@/components/shared/InputField";
 import Button from "@/components/shared/Button";
 import { useState } from "react";
 
-const UserForm: React.FC = () => {
+interface IUserForm {
+  onSubmit: ({ firstName, lastName, domain }: {
+    firstName: string;
+    lastName: string;
+    domain: string;
+  }) => Promise<void>;
+}
+
+const UserForm: React.FC<IUserForm> = ({ onSubmit }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [domain, setDomain] = useState("");
@@ -12,7 +20,8 @@ const UserForm: React.FC = () => {
   const [domainError, setDomainError] = useState("");
 
   const validateDomain = (value: string) => {
-    const domainPattern = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/;
+    const domainPattern =
+      /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/;
     if (!value) {
       setDomainError("");
     } else if (!domainPattern.test(value)) {
@@ -21,6 +30,16 @@ const UserForm: React.FC = () => {
       setDomainError("");
     }
     setDomain(value);
+  };
+
+  const handleSubmit = async () => {
+    const userData = {
+      firstName,
+      lastName,
+      domain,
+    };
+
+    onSubmit(userData);
   };
 
   return (
@@ -53,7 +72,11 @@ const UserForm: React.FC = () => {
           error={domainError}
         />
       </div>
-      <Button text="Next" onClick={() => {}} />
+      <Button
+        text="Next"
+        onClick={handleSubmit}
+        disabled={!(firstName && lastName && domain) || domainError}
+      />
     </div>
   );
 };
