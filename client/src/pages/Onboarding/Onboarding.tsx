@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import styles from "./Onboarding.module.scss";
 import UserForm from "@/components/UserForm";
 import { getUserEmail } from "@/api";
-import { ONBOARDING_STEP } from "@/constants";
+import { ONBOARDING_STEP } from "../../constants";
 import { IGetUserEmailResponse, TOnboardingStep, UserData } from "../../types";
 import EmailSelection from "../../components/EmailSelection";
+import { saveUserEmail } from "../../api";
 
 const DEFAULT_USER_DATA = {
   firstName: "",
@@ -43,15 +44,22 @@ const Onboarding: React.FC = () => {
         domain,
       });
 
-      setOnboardingStep(isNew ? "emailSelection" : "Success");
+      setOnboardingStep(isNew ?  ONBOARDING_STEP.EMAIL_SELECT : ONBOARDING_STEP.SUCCESS );
     } catch (error) {
       console.error("Error creating user:", error);
       alert("Error getting user email");
     }
   };
 
-  const handleUserEmailCreate = async ({ email }: { email: string }) => {
-    console.log({email});
+  const handleUserEmailCreate = async ({ email, fullName }: { email: string; fullName: string }) => {
+    try{
+      await saveUserEmail({email, fullName });
+      setOnboardingStep(ONBOARDING_STEP.SUCCESS);
+    }
+    catch( err ){
+      console.error(err);
+      alert(`Error saving user email: ${err}`)
+    }
   };
 
   const onReset = () => {
@@ -61,16 +69,16 @@ const Onboarding: React.FC = () => {
 
   const RenderOnboardingStep = () => {
     switch (onboardingStep) {
-      case "userForm":
+      case ONBOARDING_STEP.USER_FORM:
         return <UserForm onSubmit={handleUserDataSubmit} />;
-      case "emailSelection":
+      case ONBOARDING_STEP.EMAIL_SELECT:
         return <EmailSelection
           fullName={user.fullName}
           emailOptions={user.email}
           onSubmit={handleUserEmailCreate}
           onBack={onReset}
         />
-      case "Success":
+      case ONBOARDING_STEP.SUCCESS:
         return <div> Success </div>;
       default:
         return <UserForm onSubmit={handleUserDataSubmit} />;

@@ -7,7 +7,7 @@ import BoxSelect from "../shared/BoxSelect";
 interface IEmailSelection {
   fullName: string;
   emailOptions: string[];
-  onSubmit: ({ email }: {email: string; }) => Promise<void>;
+  onSubmit: ({ email, fullName }: {email: string; fullName: string }) => Promise<void>;
   onBack: () => void;
 }
 
@@ -27,9 +27,9 @@ const EmailSelection: React.FC<IEmailSelection> = ({ fullName, emailOptions, onS
 
   const handleSubmit = useCallback(() => {
     if (selectedEmail) {
-      onSubmit({ email: selectedEmail });
+      onSubmit({ email: selectedEmail, fullName });
     }
-  }, [selectedEmail, onSubmit]);
+  }, [fullName, selectedEmail, onSubmit]);
 
   return (
     <div className={styles.root}>
