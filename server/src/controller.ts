@@ -39,7 +39,7 @@ export const getUserEmail = async (req: IGetUserEmailReq, res: Response) => {
       return res.status(200).json({
         message: "User email generated",
         data: {
-          name: `${firstName} ${lastName}`,
+          fullName: `${firstName} ${lastName}`,
           email: [userEmail],
           isNew: false,
         },
