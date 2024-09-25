@@ -44,21 +44,28 @@ const Onboarding: React.FC = () => {
         domain,
       });
 
-      setOnboardingStep(isNew ?  ONBOARDING_STEP.EMAIL_SELECT : ONBOARDING_STEP.SUCCESS );
+      setOnboardingStep(
+        isNew ? ONBOARDING_STEP.EMAIL_SELECT : ONBOARDING_STEP.SUCCESS
+      );
     } catch (error) {
       console.error("Error creating user:", error);
       alert("Error getting user email");
     }
   };
 
-  const handleUserEmailCreate = async ({ email, fullName }: { email: string; fullName: string }) => {
-    try{
-      await saveUserEmail({email, fullName });
+  const handleUserEmailCreate = async ({
+    email,
+    fullName,
+  }: {
+    email: string;
+    fullName: string;
+  }) => {
+    try {
+      await saveUserEmail({ email, fullName });
       setOnboardingStep(ONBOARDING_STEP.SUCCESS);
-    }
-    catch( err ){
+    } catch (err) {
       console.error(err);
-      alert(`Error saving user email: ${err}`)
+      alert(`Error saving user email: ${err}`);
     }
   };
 
@@ -71,13 +78,16 @@ const Onboarding: React.FC = () => {
     switch (onboardingStep) {
       case ONBOARDING_STEP.USER_FORM:
         return <UserForm onSubmit={handleUserDataSubmit} />;
+
       case ONBOARDING_STEP.EMAIL_SELECT:
-        return <EmailSelection
-          fullName={user.fullName}
-          emailOptions={user.email}
-          onSubmit={handleUserEmailCreate}
-          onBack={onReset}
-        />
+        return (
+          <EmailSelection
+            fullName={user.fullName}
+            emailOptions={user.email}
+            onSubmit={handleUserEmailCreate}
+            onBack={onReset}
+          />
+        );
       case ONBOARDING_STEP.SUCCESS:
         return <div> Success </div>;
       default:

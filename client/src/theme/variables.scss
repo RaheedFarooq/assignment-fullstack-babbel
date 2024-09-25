@@ -8,3 +8,18 @@ $babbel_background: rgb(246, 244, 239);
 $babbel_white: #fff;
 $babbel_white_light: #f5f5f5;
 $babbel_black: #000;
+
+@keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  @mixin fadeInScaleAnimation($duration: 0.3s, $timing-function: ease-out) {
+    animation: fadeInScale $duration $timing-function;
+  }

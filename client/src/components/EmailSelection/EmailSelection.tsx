@@ -55,7 +55,6 @@ const EmailSelection: React.FC<IEmailSelection> = ({ fullName, emailOptions, onS
         text="Go back"
         variant="text"
         onClick={onBack}
-        disabled={!selectedEmail}
       />
     </div>
   );
