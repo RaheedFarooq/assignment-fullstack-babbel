@@ -140,34 +140,6 @@ Note: Due to time constraints, comprehensive testing for all functions and files
 
 Note: Make sure you have Node.js and Yarn installed on your system before running these commands.
 
-
-assignment-fullstack-babbel/
-├── client/                 # Frontend application
-│   ├── src/                # Source files
-│   │   ├── api/            # Api layer to interact with the Server
-│   │   ├── components/     # Page components + shared components folder
-│   │   ├── hooks/          # Custom Hooks ( useUserData )
-│   │   ├── pages/          # Layout components for the pages
-│   │   ├── theme/          # universal theme folder for the application
-│   │   ├── constants.ts    # Application Contants
-│   │   ├── types.ts        # Application Type Definitions
-│   │   └── main.tsx        # Entry point
-│   ├── package.json
-│   └── README.md
-│
-├── server/                 # Backend application
-│   ├── src/
-│   │   ├── __tests__/      # Test folder
-│   │   ├── model.ts        # Database model File
-│   │   ├── controller.ts   # Controller functions for the APIs
-│   │   ├── types.ts        # Type Definitions
-│   │   ├── utils.ts        # Utility functions
-│   │   ├── data.json       # Temp Static Data ( treated as database )
-│   │   └── index.ts        # Express app setup and routes
-│   ├── package.json
-│   └── README.md
-└── README.md 
-
 ## Project Structure
 ### Client-side (Frontend)
 
