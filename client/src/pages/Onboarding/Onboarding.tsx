@@ -1,27 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./Onboarding.module.scss";
 import UserForm from "@/components/UserForm";
 import { getUserEmail } from "@/api";
-import { ONBOARDING_STEP } from "../../constants";
-import { IGetUserEmailResponse, TOnboardingStep, UserData } from "../../types";
+import { DEFAULT_USER_DATA, ONBOARDING_STEP } from "../../constants";
+import { IGetUserEmailResponse } from "../../types";
 import EmailSelection from "../../components/EmailSelection";
 import { saveUserEmail } from "../../api";
 import OnboardingSuccess from "../../components/OnboardingSuccess";
-
-const DEFAULT_USER_DATA = {
-  firstName: "",
-  lastName: "",
-  fullName: "",
-  email: [],
-  domain: "",
-};
+import { useUserData } from "../../hooks/useUserData";
 
 const Onboarding: React.FC = () => {
-  const [onboardingStep, setOnboardingStep] = useState<TOnboardingStep>(
-    ONBOARDING_STEP.USER_FORM
-  );
-
-  const [user, setUser] = useState<UserData>(DEFAULT_USER_DATA);
+  const { user, updateUser, updateOnboardingStep } = useUserData();
 
   const handleUserDataSubmit = async ({
     firstName,
@@ -36,18 +25,17 @@ const Onboarding: React.FC = () => {
       const { fullName, email, isNew }: IGetUserEmailResponse =
         await getUserEmail({ firstName, lastName, domain });
 
-      setUser({
+      updateUser({
         ...user,
         firstName,
         lastName,
         fullName,
         email,
         domain,
+        onboardingStep: isNew
+          ? ONBOARDING_STEP.EMAIL_SELECT
+          : ONBOARDING_STEP.SUCCESS,
       });
-
-      setOnboardingStep(
-        isNew ? ONBOARDING_STEP.EMAIL_SELECT : ONBOARDING_STEP.SUCCESS
-      );
     } catch (error) {
       console.error("Error creating user:", error);
       alert("Error getting user email");
@@ -63,7 +51,7 @@ const Onboarding: React.FC = () => {
   }) => {
     try {
       await saveUserEmail({ email, fullName });
-      setOnboardingStep(ONBOARDING_STEP.SUCCESS);
+      updateOnboardingStep(ONBOARDING_STEP.SUCCESS);
     } catch (err) {
       console.error(err);
       alert(`Error saving user email: ${err}`);
@@ -71,12 +59,11 @@ const Onboarding: React.FC = () => {
   };
 
   const onReset = () => {
-    setOnboardingStep(ONBOARDING_STEP.USER_FORM);
-    setUser(DEFAULT_USER_DATA);
+    updateUser(DEFAULT_USER_DATA);
   };
 
   const RenderOnboardingStep = () => {
-    switch (onboardingStep) {
+    switch (user.onboardingStep) {
       case ONBOARDING_STEP.USER_FORM:
         return <UserForm onSubmit={handleUserDataSubmit} />;
 
@@ -105,7 +92,8 @@ const Onboarding: React.FC = () => {
 
   return (
     <div className={styles.root}>
-      <h1><i>+Babbel</i>
+      <h1>
+        <i>+Babbel</i>
       </h1>
       <RenderOnboardingStep />
     </div>
