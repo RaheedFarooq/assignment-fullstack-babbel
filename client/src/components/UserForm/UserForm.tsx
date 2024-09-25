@@ -29,14 +29,14 @@ const UserForm: React.FC<IUserForm> = ({ onSubmit }) => {
     } else {
       setDomainError("");
     }
-    setDomain(value);
+    setDomain(value.toLowerCase());
   };
 
   const handleSubmit = async () => {
     const userData = {
       firstName,
       lastName,
-      domain,
+      domain: domain.toLowerCase(),
     };
 
     onSubmit(userData);

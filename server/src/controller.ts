@@ -16,8 +16,9 @@ const handleError = (status: number, message: string, res: Response) => {
 
 export const getUserEmail = async (req: IGetUserEmailReq, res: Response) => {
   try {
-    const { firstName, lastName, domain } = req.query;
-
+    let { firstName, lastName, domain } = req.query;
+    domain = domain.toLowerCase();
+    
     if (!(firstName && lastName && domain && validateDomain(domain))) {
       return handleError(
         400,
