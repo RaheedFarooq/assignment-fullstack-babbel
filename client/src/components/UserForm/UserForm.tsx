@@ -61,7 +61,7 @@ const UserForm: React.FC<IUserForm> = ({ onSubmit }) => {
         <InputField
           maxWidth
           label="Company Domain"
-          placeholder="Enter your Company Domain"
+          placeholder="Enter your Company Domain ( e.g babbel.com )"
           type="text"
           name="domain"
           value={domain}

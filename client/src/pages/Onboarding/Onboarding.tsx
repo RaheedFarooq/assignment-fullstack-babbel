@@ -6,6 +6,7 @@ import { ONBOARDING_STEP } from "../../constants";
 import { IGetUserEmailResponse, TOnboardingStep, UserData } from "../../types";
 import EmailSelection from "../../components/EmailSelection";
 import { saveUserEmail } from "../../api";
+import OnboardingSuccess from "../../components/OnboardingSuccess";
 
 const DEFAULT_USER_DATA = {
   firstName: "",
@@ -89,7 +90,14 @@ const Onboarding: React.FC = () => {
           />
         );
       case ONBOARDING_STEP.SUCCESS:
-        return <div> Success </div>;
+        return (
+          <OnboardingSuccess
+            onReset={onReset}
+            fullName={user.fullName}
+            email={user.email[0]}
+            domain={user.domain}
+          />
+        );
       default:
         return <UserForm onSubmit={handleUserDataSubmit} />;
     }
@@ -97,8 +105,7 @@ const Onboarding: React.FC = () => {
 
   return (
     <div className={styles.root}>
-      <h1>
-        Welcome to <i>Babbel</i>
+      <h1><i>+Babbel</i>
       </h1>
       <RenderOnboardingStep />
     </div>

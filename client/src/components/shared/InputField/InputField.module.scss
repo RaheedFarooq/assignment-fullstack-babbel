@@ -3,7 +3,7 @@
 .inputField {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
   flex: 1 0 0;
   position: relative;
 
@@ -18,10 +18,10 @@
   }
 
   .input {
-    padding: 10px;
+    padding: 16px;
     outline: none;
     border: 1px solid $babbel_primary;
-    border-radius: 5px;
+    border-radius: 8px;
     color: $babbel_primary;
     box-shadow: none;
     transition: all 0.2s ease-in;
