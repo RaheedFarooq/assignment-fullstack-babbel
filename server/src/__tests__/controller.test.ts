@@ -1,8 +1,8 @@
 import { Response } from 'express';
-import { getUserEmail } from '../controller';
-import { getByDomain } from '../model';
-import { validateDomain, getEmailType, generateUserEmail } from '../utils';
-import { IGetUserEmailReq } from '../types';
+import { getUserEmail, saveNewEmail } from '../controller';
+import { getByDomain, saveToJson } from '../model';
+import { validateDomain, getEmailType, generateUserEmail, validateEmail } from '../utils';
+import { IGetUserEmailReq, IPostUserEmailReq } from '../types';
 
 jest.mock('../model');
 jest.mock('../utils');
@@ -56,7 +56,7 @@ describe('getUserEmail', () => {
     });
   });
 
-  it.only('should return potential emails if no colleague found', async () => {
+  it('should return potential emails if no colleague found', async () => {
     (validateDomain as jest.Mock).mockReturnValue(true);
     (getByDomain as jest.Mock).mockResolvedValue(null);
     (generateUserEmail as jest.Mock)
@@ -89,3 +89,68 @@ describe('getUserEmail', () => {
     });
   });
 });
+
+describe('saveNewEmail', () => {
+    let mockRequest: Partial<IPostUserEmailReq>;
+    let mockResponse: Partial<Response>;
+    let mockJson: jest.Mock;
+    let mockStatus: jest.Mock;
+  
+    beforeEach(() => {
+      mockJson = jest.fn();
+      mockStatus = jest.fn().mockReturnValue({ json: mockJson });
+      mockResponse = {
+        status: mockStatus,
+        json: mockJson,
+      };
+      mockRequest = {
+        body: { fullName: 'Raheed Farooq', email: 'rfarooq@example.com' },
+      };
+    });
+  
+    it('should return 400 if required parameters are missing', async () => {
+      mockRequest.body = { fullName: 'Raheed Farooq', email: '' };
+      (validateDomain as jest.Mock).mockReturnValue(false);
+      await saveNewEmail(mockRequest as IPostUserEmailReq, mockResponse as Response);
+  
+      expect(mockStatus).toHaveBeenCalledWith(400);
+      expect(mockJson).toHaveBeenCalledWith({
+        message: 'Missing required parameters: fullName and email are required.',
+      });
+    });
+  
+    it('should return 400 if email format is invalid', async () => {
+      mockRequest.body = { fullName: 'Raheed Farooq', email: 'invalid-email' };
+      (validateEmail as jest.Mock).mockReturnValue(false);
+  
+      await saveNewEmail(mockRequest as IPostUserEmailReq, mockResponse as Response);
+  
+      expect(mockStatus).toHaveBeenCalledWith(400);
+      expect(mockJson).toHaveBeenCalledWith({
+        message: 'Invalid email format',
+      });
+    });
+  
+    it('should save email and return 201 status on success', async () => {
+      (validateEmail as jest.Mock).mockReturnValue(true);
+      (saveToJson as jest.Mock).mockResolvedValue(undefined);
+  
+      await saveNewEmail(mockRequest as IPostUserEmailReq, mockResponse as Response);
+  
+      expect(saveToJson).toHaveBeenCalledWith('Raheed Farooq', 'rfarooq@example.com');
+      expect(mockStatus).toHaveBeenCalledWith(201);
+      expect(mockJson).toHaveBeenCalledWith({ message: 'Success' });
+    });
+  
+    it('should handle errors and return 500 status', async () => {
+      (validateEmail as jest.Mock).mockReturnValue(true);
+      (saveToJson as jest.Mock).mockRejectedValue(new Error('Database error'));
+  
+      await saveNewEmail(mockRequest as IPostUserEmailReq, mockResponse as Response);
+  
+      expect(mockStatus).toHaveBeenCalledWith(500);
+      expect(mockJson).toHaveBeenCalledWith({
+        message: 'Oops! Something went wrong. Unable to save user email',
+      });
+    });
+  });
