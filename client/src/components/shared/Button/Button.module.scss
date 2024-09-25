@@ -1,0 +1,35 @@
+@import '@/theme/variables.scss';
+
+.button {
+    background-color: $babbel_primary;
+    color: $babbel_white;
+    font-size: 16px;
+    font-weight: 600;
+    min-width: 200px;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $babbel_primary_75;
+    }
+    &:disabled{
+        background-color: $babbel_primary_light;
+    }
+
+    &.text {
+        background-color: transparent;
+        color: $babbel_primary;
+        font-size: 14px;
+        font-weight: 400;
+        margin: 8px auto;
+        padding: 0;
+        min-width: 0;
+        border: none;
+        text-decoration: underline;
+        &:hover {
+            color: $babbel_primary_75;
+        }
+    }
+}

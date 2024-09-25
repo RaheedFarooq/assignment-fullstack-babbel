@@ -1,0 +1,20 @@
+@import '@/theme/variables.scss';
+
+.root {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .contactSummary {
+        padding: 25px 35px;
+        border-radius: 12px;
+        background-color: $babbel_white;
+        outline: 2px solid $babbel_secondary;
+        margin: 20px auto;
+
+        p {
+            text-align: start;
+            margin: 8px auto;
+        }
+    }
+}

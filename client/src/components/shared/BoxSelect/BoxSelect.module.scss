@@ -1,0 +1,18 @@
+@import "@/theme/variables.scss";
+
+.boxSelect {
+  border: 1px solid $babbel_primary;
+  border-radius: 5px;
+  padding: 16px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease-out;
+  
+  
+  &.selected {
+    background-color: $babbel_secondary_light;
+    color: $babbel_primary;
+    font-weight: 600;
+    box-shadow: 0px 0px 4px 0px $babbel_primary_light;
+  }
+}

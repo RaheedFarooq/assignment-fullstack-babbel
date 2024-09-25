@@ -1,0 +1,26 @@
+@import '@/theme/variables.scss';
+
+.root {
+    color: $babbel_primary;
+    outline: 6px solid $babbel_primary;
+    outline-offset: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    border: 2px solid $babbel_primary;
+    padding: 50px;
+    flex-wrap: wrap;
+    max-width: 600px;
+    margin: auto 20px;
+    box-shadow: 0 0 10px 0px $babbel_secondary; 
+    
+    div {
+        @include fadeInScaleAnimation();
+    }
+
+    @media screen and (max-width: 375px) {
+        padding: 30px;
+    }
+}

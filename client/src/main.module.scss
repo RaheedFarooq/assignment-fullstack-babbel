@@ -1,0 +1,21 @@
+@import '@/theme/variables.scss';
+
+body {
+    background-color: $babbel_background;
+    font-family: 'Open Sans', sans-serif;
+    margin: 0px;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  h1 {
+    margin: 8px;
+    text-align: center;
+  }
+
+  p {
+    margin: 4px;
+    text-align: center;
+  }
